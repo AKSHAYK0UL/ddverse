@@ -1,4 +1,5 @@
-import 'package:ddverse/presentation/home/home.dart';
+import 'package:ddverse/presentation/history/screen/history.dart';
+import 'package:ddverse/presentation/scan/screen/reading.dart';
 import 'package:flutter/material.dart';
 
 class NavBar extends StatefulWidget {
@@ -9,26 +10,31 @@ class NavBar extends StatefulWidget {
 }
 
 class _NavBarState extends State<NavBar> {
-  final screens = [Home(), Home()];
+  final screens = [Reading(), History()];
   int currentIdx = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens[currentIdx],
+      body: IndexedStack(index: currentIdx, children: screens),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIdx,
         onTap: (value) {
           setState(() {
             currentIdx = value;
           });
         },
-        items: [
+        selectedLabelStyle: Theme.of(
+          context,
+        ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
+        unselectedLabelStyle: Theme.of(context).textTheme.bodySmall,
+        items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.speed),
-            label: "Take Reading",
+            icon: Icon(Icons.speed, size: 25),
+            label: "Test",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: "View History",
+            icon: Icon(Icons.history, size: 25),
+            label: "Reports",
           ),
         ],
       ),

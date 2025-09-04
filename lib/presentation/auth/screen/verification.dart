@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:ddverse/bloc/auth_bloc/bloc/auth_bloc.dart';
 import 'package:ddverse/core/enums/auth_enums.dart';
+import 'package:ddverse/core/services/size_service/size_service.dart';
 import 'package:ddverse/core/ui_component/snackbar.dart';
-import 'package:ddverse/presentation/home/home.dart';
+import 'package:ddverse/presentation/scan/screen/reading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_mail/open_mail.dart';
@@ -46,7 +47,7 @@ class _VerificationState extends State<Verification> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.sizeOf(context);
+    final screenSize = SizeService.height(context);
 
     return Scaffold(
       appBar: AppBar(),
@@ -62,63 +63,70 @@ class _VerificationState extends State<Verification> {
               state.successSource == AuthEnum.verification) {
             Navigator.of(
               context,
-            ).pushNamedAndRemoveUntil(Home.routeName, (route) => false);
+            ).pushNamedAndRemoveUntil(Reading.routeName, (route) => false);
           }
         },
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: screenSize.height * 0.020,
-            vertical: screenSize.height * 0.020,
+            horizontal: screenSize * 0.020,
+            vertical: screenSize * 0.020,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: screenSize.height * 0.130),
-              Image.asset(
-                'assets/everify.png',
-                width: screenSize.height * 0.260,
-                height: screenSize.height * 0.260,
-              ),
-              SizedBox(height: screenSize.height * 0.0250),
-              ValueListenableBuilder<int>(
-                valueListenable: remainingSecondsNotifier,
-                builder: (context, value, _) {
-                  return RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text:
-                              "Check your Email to verify it's you.\nRemaining time ",
-                          style: Theme.of(context).textTheme.labelLarge,
-                        ),
-                        TextSpan(
-                          text: value.toString(),
-                          style: Theme.of(
-                            context,
-                          ).textTheme.labelLarge!.copyWith(color: Colors.blue),
-                        ),
-                        TextSpan(
-                          text: " seconds",
-                          style: Theme.of(context).textTheme.labelLarge,
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-              SizedBox(height: screenSize.height * 0.260),
-              ElevatedButton(
-                onPressed: () async {
-                  await OpenMail.openMailApp();
-                },
-                child: const Text('Open Mail App'),
-              ),
-            ],
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: screenSize * 0.130),
+                Image.asset(
+                  "assets/everify.png",
+                  width: screenSize * 0.260,
+                  height: screenSize * 0.260,
+                ),
+                SizedBox(height: screenSize * 0.0250),
+                ValueListenableBuilder<int>(
+                  valueListenable: remainingSecondsNotifier,
+                  builder: (context, value, _) {
+                    return RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text:
+                                "Check your Email to verify it's you.\nRemaining time ",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          TextSpan(
+                            text: value.toString(),
+                            style: Theme.of(context).textTheme.titleSmall!
+                                .copyWith(color: Colors.blue),
+                          ),
+                          TextSpan(
+                            text: " seconds",
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
+      persistentFooterButtons: [
+        ElevatedButton(
+          onPressed: () async {
+            await OpenMail.openMailApp();
+          },
+          child: Text(
+            'Open Mail App',
+            style: Theme.of(
+              context,
+            ).textTheme.titleSmall?.copyWith(color: Colors.white),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -10,17 +10,15 @@ class AuthNetwork {
   //signUp
   Future<void> signUp(String email, String password) async {
     try {
+      //create user
       await _firebaseAuthInstance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-
-      final user = _firebaseAuthInstance.currentUser;
-      if (user != null && !user.emailVerified) {
-        await user.sendEmailVerification();
-      }
     } on FirebaseAuthException catch (e) {
       throw Exception(e.message);
+    } catch (e) {
+      throw Exception(e.toString());
     }
   }
 
@@ -29,10 +27,11 @@ class AuthNetwork {
     try {
       Duration checkInterval = const Duration(seconds: 3);
       Duration timeout = const Duration(minutes: 2);
-
+      // Get the current user
       var user = _firebaseAuthInstance.currentUser!;
       if (user.emailVerified) return true;
 
+      await user.sendEmailVerification();
       final startTime = DateTime.now();
 
       while (!user.emailVerified &&
@@ -42,7 +41,9 @@ class AuthNetwork {
         user = _firebaseAuthInstance.currentUser!;
       }
 
-      return user.emailVerified;
+      return user.emailVerified ? true : false;
+    } on FirebaseAuthException catch (e) {
+      throw Exception(e.message);
     } catch (e) {
       throw Exception(e.toString());
     }

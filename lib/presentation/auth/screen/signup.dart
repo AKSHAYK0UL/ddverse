@@ -34,6 +34,7 @@ class SignUp extends StatelessWidget {
                   if (state is AuthSuccessState &&
                       state.successSource == AuthEnum.signUp) {
                     //Naviagate to verification screen
+
                     Navigator.of(context).pushNamed(Verification.routeName);
                   }
                 },

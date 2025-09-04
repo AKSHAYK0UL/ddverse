@@ -27,5 +27,10 @@ TextTheme textTheme(double size) {
       color: Colors.black,
       fontSize: size * 0.0220,
     ),
+    bodySmall: TextStyle(
+      fontWeight: FontWeight.w500,
+      color: Colors.black,
+      fontSize: size * 0.0200,
+    ),
   );
 }

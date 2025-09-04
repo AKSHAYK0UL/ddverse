@@ -1,11 +1,14 @@
 import 'package:ddverse/bloc/auth_bloc/bloc/auth_bloc.dart';
 import 'package:ddverse/bloc/auth_state_bloc/bloc/auth_state_bloc.dart';
+import 'package:ddverse/bloc/reading_bloc/bloc/reading_bloc.dart';
 import 'package:ddverse/core/bloc_dependencies/auth_dep.dart';
 import 'package:ddverse/core/route/route.dart';
 import 'package:ddverse/core/services/size_service/size_service.dart';
+import 'package:ddverse/core/theme/apptheme.dart';
 import 'package:ddverse/core/theme/elevatedbutton.dart';
 import 'package:ddverse/core/theme/floatingbutton.dart';
 import 'package:ddverse/core/theme/text_theme.dart';
+
 import 'package:ddverse/secrets/firebase_options.dart';
 import 'package:ddverse/presentation/auth/widget/switch_signinup.dart';
 import 'package:ddverse/presentation/home/navbar.dart';
@@ -31,16 +34,18 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthBloc(authDep)),
         BlocProvider(create: (context) => AuthStateBloc(firebaseAuthInstance)),
+        BlocProvider(create: (context) => ReadingBloc(btRepo, dbRepo)),
       ],
 
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: "DDverse",
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
           textTheme: textTheme(size),
           elevatedButtonTheme: elevatedButtonTheme(size),
           floatingActionButtonTheme: floatingActionButtonTheme(),
+          appBarTheme: appBarTheme(size),
         ),
         routes: routes,
         home: BlocSelector<AuthStateBloc, AuthStateState, bool>(

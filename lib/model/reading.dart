@@ -11,9 +11,15 @@ class TestReading {
 
   factory TestReading.fromJson(Map<String, dynamic> json) {
     return TestReading(
-      temperature: int.parse(json["temperature"]),
-      moisture: int.parse(json["moisture"]),
-      timestamp: DateTime.parse(json["timestamp"]),
+      temperature:
+          json["temperature"] is String
+              ? int.parse(json["temperature"])
+              : (json["temperature"] as num).toInt(),
+      moisture:
+          json["moisture"] is String
+              ? int.parse(json["moisture"])
+              : (json["moisture"] as num).toInt(),
+      timestamp: DateTime.parse(json["timestamp"].toString()),
     );
   }
 

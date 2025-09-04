@@ -3,6 +3,7 @@ import 'package:ddverse/presentation/auth/screen/signup.dart';
 import 'package:flutter/widgets.dart';
 
 class SwitchSigninup extends StatefulWidget {
+  static const routeName = "/switch";
   const SwitchSigninup({super.key});
 
   @override
