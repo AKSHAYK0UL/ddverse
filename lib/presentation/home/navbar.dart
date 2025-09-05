@@ -3,6 +3,7 @@ import 'package:ddverse/presentation/scan/screen/reading.dart';
 import 'package:flutter/material.dart';
 
 class NavBar extends StatefulWidget {
+  static const routeName = "/navbar";
   const NavBar({super.key});
 
   @override

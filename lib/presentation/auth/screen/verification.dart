@@ -3,7 +3,7 @@ import 'package:ddverse/bloc/auth_bloc/bloc/auth_bloc.dart';
 import 'package:ddverse/core/enums/auth_enums.dart';
 import 'package:ddverse/core/services/size_service/size_service.dart';
 import 'package:ddverse/core/ui_component/snackbar.dart';
-import 'package:ddverse/presentation/scan/screen/reading.dart';
+import 'package:ddverse/presentation/home/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_mail/open_mail.dart';
@@ -29,7 +29,7 @@ class _VerificationState extends State<Verification> {
 
   void startTimer() {
     countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (remainingSecondsNotifier.value == 0) {
+      if (remainingSecondsNotifier.value <= 0) {
         timer.cancel();
         Navigator.of(context).pop();
       } else {
@@ -58,12 +58,13 @@ class _VerificationState extends State<Verification> {
               state.errorSource == AuthEnum.verification) {
             print("ERROR : ${state.errorMessage}");
             buildSnackbar(context, state.errorMessage);
+            Navigator.of(context).pop();
           }
           if (state is AuthSuccessState &&
               state.successSource == AuthEnum.verification) {
             Navigator.of(
               context,
-            ).pushNamedAndRemoveUntil(Reading.routeName, (route) => false);
+            ).pushNamedAndRemoveUntil(NavBar.routeName, (route) => false);
           }
         },
         child: Padding(

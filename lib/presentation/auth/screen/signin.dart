@@ -4,7 +4,7 @@ import 'package:ddverse/core/services/size_service/size_service.dart';
 import 'package:ddverse/core/ui_component/snackbar.dart';
 import 'package:ddverse/presentation/auth/screen/forgotpassword.dart';
 import 'package:ddverse/presentation/auth/widget/text_form.dart';
-import 'package:ddverse/presentation/scan/screen/reading.dart';
+import 'package:ddverse/presentation/home/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,7 +36,7 @@ class Signin extends StatelessWidget {
                   if (state is AuthSuccessState &&
                       state.successSource == AuthEnum.signIn) {
                     Navigator.of(context).pushNamedAndRemoveUntil(
-                      Reading.routeName,
+                      NavBar.routeName,
                       (route) => false,
                     );
                   }
